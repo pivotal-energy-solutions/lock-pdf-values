@@ -12,37 +12,29 @@
 
 ;; https://pdfbox.apache.org/docs/2.0.7/javadocs
 
+(def read-only-bit 1)
+
 (defn has-value? [field]
   (seq (.getValueAsString field)))
 
-(defn set-fields-flags
-  "Assign flags to the fields provided and save the document."
-  [filename output doc field-map]
-  (try
-    (doseq [[field field-bit] field-map]
-      (.setFieldFlags field field-bit))
-    (.save doc output)
-    (catch NullPointerException e
-      (str "Error: non existent field provided."))))
+(defn get-fields [document]
+  (->> document
+       (.getDocumentCatalog)
+       (.getAcroForm)
+       (.getFields)))
 
-(defn set-fields-readonly
-  "Set the readonly flag for provided fields in a document"
-  [filename output doc fields]
-  (let [readonly-flags (repeat (count fields) 1)
-        field-map (zipmap fields readonly-flags)]
-    (set-fields-flags filename output doc field-map)))
+(defn set-field-readonly [field]
+  (.setFieldFlags field read-only-bit)
+  field)
 
-(defn set-fields-with-values-readonly
-  "Given a Filename, set only the fields that have been filled in as readonly.
-  Return a list of names of the fields that have been modified."
-  [filename output]
-  (with-open [doc (common/obtain-document filename)]
-    (let [catalog (.getDocumentCatalog doc)
-          form (.getAcroForm catalog)
-          fields (.getFields form)
-          fields-to-lock (filter has-value? fields)]
-      (set-fields-readonly filename output doc fields-to-lock)
-      fields-to-lock)))
+(defn print-field [field]
+  (println (str "  - " (.getPartialName field))))
+
+(defn lock-fields [document]
+  (->> (get-fields document)
+       (filter has-value?)
+       (map set-field-readonly)
+       (run! print-field)))
 
 (defn usage [options-summary]
   (->> ["Provided a PDF file with interactive form in it."
@@ -59,19 +51,21 @@
                   ["-o" "--output FILENAME" "File Destination (Defaults to input location)"]
                   ["-h" "--help"]])
 
+
+
+(defn main [input output]
+  (println (str "Locking fields for document: " input))
+  (with-open [document (common/obtain-document input)]
+    (dorun (lock-fields document))
+    (.save document output))
+  (println (str "Output: " output)))
+
 (defn -main [& args]
-  (let [{:keys [options arguments summary errors]} (parse-opts args cli-options)];
+  (let [{:keys [options arguments summary errors]} (parse-opts args cli-options)]
     (when (:help options)
       (println (usage summary))
-      (System/exit 0))
-    (let [input (:filename options)
-          output (or (:output options) input)]
-      (println (format "Locking fields for document: %s" input))
-      (-> {:input input :output output}
-          (open-document)
-          ()
-          )
-      (doseq [(field set-fields-with-values-readonly input output)]
-        (println (str "  - " (.getPartialName field))))
-      (println (format "Output: %s" output))))
-  (System/exit 0))
+      (System/exit0))
+    (let [filename (:filename options)
+          output (or (:output options) filename)]
+      (lock-fields filename output))
+  (System/exit 0)))
