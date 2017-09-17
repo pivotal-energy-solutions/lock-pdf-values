@@ -42,7 +42,6 @@
           fields (.getFields form)
           fields-to-lock (filter has-value? fields)]
       (set-fields-readonly filename output doc fields-to-lock)
-      "Hey I locked some fields"
       fields-to-lock)))
 
 (defn usage [options-summary]
@@ -68,6 +67,10 @@
     (let [input (:filename options)
           output (or (:output options) input)]
       (println (format "Locking fields for document: %s" input))
+      (-> {:input input :output output}
+          (open-document)
+          ()
+          )
       (doseq [(field set-fields-with-values-readonly input output)]
         (println (str "  - " (.getPartialName field))))
       (println (format "Output: %s" output))))
