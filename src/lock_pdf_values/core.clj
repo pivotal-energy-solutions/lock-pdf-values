@@ -24,7 +24,7 @@
        (.getFields)))
 
 (defn set-field-readonly [field]
-  (.setFieldFlags field read-only-bit)
+  (.setReadOnly field true)
   field)
 
 (defn print-field [field]
