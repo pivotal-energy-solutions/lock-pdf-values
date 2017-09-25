@@ -64,7 +64,7 @@
   (let [{:keys [options arguments summary errors]} (parse-opts args cli-options)]
     (when (:help options)
       (println (usage summary))
-      (System/exit0))
+      (System/exit 0))
     (let [filename (:filename options)
           output (or (:output options) filename)]
       (lock-fields filename output))
