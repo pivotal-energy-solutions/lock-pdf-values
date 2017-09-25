@@ -67,5 +67,5 @@
       (System/exit 0))
     (let [filename (:filename options)
           output (or (:output options) filename)]
-      (lock-fields filename output))
-  (System/exit 0)))
+      (main filename output))
+    (System/exit 0)))
