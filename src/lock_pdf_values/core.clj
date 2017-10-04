@@ -28,19 +28,6 @@
        (.getAcroForm)
        (.getFields)))
 
-(defn set-field-readonly [field]
-  (.setReadOnly field true)
-  field)
-
-(defn print-field [field]
-  (println (str "  - " (.getPartialName field))))
-
-(defn lock-fields [document]
-  (->> (get-fields document)
-       (filter has-value?)
-       (map set-field-readonly)
-       (run! print-field)))
-
 (defn usage [options-summary]
   (->> ["Provided a PDF file with interactive form in it."
         "Will crawl through and set any field with a value to readonly."
@@ -56,12 +43,12 @@
                   ["-o" "--output FILENAME" "File Destination (Defaults to input location)"]
                   ["-h" "--help"]])
 
-
-
 (defn main [input output]
   (println (str "Locking fields for document: " input))
   (with-open [document (common/obtain-document input)]
-    (dorun (lock-fields document))
+    (doseq [field (filter has-value? (get-fields document))]
+      (.setReadOnly field true)
+      (println (str "  - " (.getPartialName field))))
     (.save document output))
   (println (str "Output: " output)))
 
