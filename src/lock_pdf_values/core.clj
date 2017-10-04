@@ -14,8 +14,13 @@
 
 (def read-only-bit 1)
 
-(defn has-value? [field]
+(defmulti has-value? type)
+
+(defmethod has-value? :default [field]  
   (seq (.getValueAsString field)))
+
+(defmethod has-value? PDCheckBox [field]
+  (.isChecked field))
 
 (defn get-fields [document]
   (->> document
