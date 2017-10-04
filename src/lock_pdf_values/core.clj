@@ -6,7 +6,7 @@
   (:import
    [org.apache.pdfbox.pdmodel PDDocumentCatalog]
    [org.apache.pdfbox.pdmodel.common COSObjectable]
-   [org.apache.pdfbox.pdmodel.interactive.form PDAcroForm PDField PDSignatureField]
+   [org.apache.pdfbox.pdmodel.interactive.form PDAcroForm PDField PDSignatureField PDTextField PDCheckBox]
    [java.io IOException])
   (:gen-class))
 
