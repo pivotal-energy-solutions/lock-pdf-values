@@ -6,21 +6,16 @@
   (:import
    [org.apache.pdfbox.pdmodel PDDocumentCatalog]
    [org.apache.pdfbox.pdmodel.common COSObjectable]
-   [org.apache.pdfbox.pdmodel.interactive.form PDAcroForm PDField PDSignatureField PDTextField PDCheckBox]
+   [org.apache.pdfbox.pdmodel.interactive.form PDAcroForm PDField PDSignatureField PDTextField PDCheckBox PDChoice]
    [java.io IOException])
   (:gen-class))
 
 ;; https://pdfbox.apache.org/docs/2.0.7/javadocs
 
-(def read-only-bit 1)
-
-(defmulti has-value? type)
-
-(defmethod has-value? :default [field]  
-  (seq (.getValueAsString field)))
-
-(defmethod has-value? PDCheckBox [field]
-  (.isChecked field))
+(defn seq-contains? [coll target]
+  ;(println target " in: " (some #(= target %) coll))
+  (some #(= target %) coll)
+  )
 
 (defn get-fields [document]
   (->> document
@@ -32,7 +27,7 @@
   (->> ["Provided a PDF file with interactive form in it."
         "Will crawl through and set any field with a value to readonly."
         ""
-        "Usage: lock-pdf-values -f INPUT-FILE [-o OUTPUT-FILE]"
+        "Usage: lock-pdf-values -f INPUT-FILE [-o OUTPUT-FILE] -F \"<Field1>,Field 2>,<Field n>\""
         ""
         "Options:"
         options-summary
@@ -41,14 +36,19 @@
 
 (def cli-options [["-f" "--filename FILENAME" "File Location"]
                   ["-o" "--output FILENAME" "File Destination (Defaults to input location)"]
+                  ["-F" "--fields <field 1>,<field 2>,<field n>" "Fields to lock"]
                   ["-h" "--help"]])
 
-(defn main [input output]
+(defn main [input output fields]
   (println (str "Locking fields for document: " input))
+  (def field-names (string/split fields #","))
+  (println (str "Locking field names: " field-names))
   (with-open [document (common/obtain-document input)]
-    (doseq [field (filter has-value? (get-fields document))]
-      (.setReadOnly field true)
-      (println (str "  - " (.getPartialName field))))
+    (doseq [field (get-fields document)]
+      (if (seq-contains? field-names (.getPartialName field))
+        (.setReadOnly field true)
+        )
+      )
     (.save document output))
   (println (str "Output: " output)))
 
@@ -58,6 +58,7 @@
       (println (usage summary))
       (System/exit 0))
     (let [filename (:filename options)
-          output (or (:output options) filename)]
-      (main filename output))
+          output (or (:output options) filename)
+          fields (:fields options)]
+      (main filename output fields))
     (System/exit 0)))

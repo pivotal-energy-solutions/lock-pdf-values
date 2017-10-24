@@ -8,6 +8,12 @@ A Clojure library designed to take an interactive PDF and set all the fields wit
 
 Not using the `-o` option will overwrite the source file.
 
+## Build
+
+`lein.sh new`
+
+`lein.sh uberjar`
+
 ## License
 
 Copyright © 2017

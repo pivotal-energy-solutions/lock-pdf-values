@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="pdfbox-2.0.7.jar" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/../lock-pdf-values-libraries/pdfbox-2.0.7.jar" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../lock-pdf-values-libraries/pdfbox-2.0.7.jar" />
+    </CLASSES>
+    <DOCUMENTATION>
+      <root url="https://pdfbox.apache.org/docs/2.0.7/javadocs" />
+    </DOCUMENTATION>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

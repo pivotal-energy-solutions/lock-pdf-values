@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="PROJECT" libraries="{fontbox-2.0.7.jar, pdfbox-2.0.7.jar, pdfbox-debugger-2.0.7.jar, pdfbox-tools-2.0.7.jar, preflight-2.0.7.jar, xmpbox-2.0.7.jar}" />
+  </component>
+</project>

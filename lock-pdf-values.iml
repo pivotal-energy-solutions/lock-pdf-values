@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module cursive.leiningen.project.LeiningenProjectsManager.displayName="lock-pdf-values:1.0.0" cursive.leiningen.project.LeiningenProjectsManager.isLeinModule="true" type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/dev-resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="pdfbox-tools-2.0.7.jar" level="project" />
+    <orderEntry type="library" name="fontbox-2.0.7.jar" level="project" />
+    <orderEntry type="library" name="preflight-2.0.7.jar" level="project" />
+    <orderEntry type="library" name="xmpbox-2.0.7.jar" level="project" />
+    <orderEntry type="library" name="pdfbox-debugger-2.0.7.jar" level="project" />
+    <orderEntry type="library" name="pdfbox-2.0.7.jar" level="project" />
+    <orderEntry type="library" name="Leiningen: clojure-complete:0.2.4" level="project" />
+    <orderEntry type="library" name="Leiningen: commons-logging:1.2" level="project" />
+    <orderEntry type="library" name="Leiningen: org.apache.pdfbox/fontbox:2.0.6" level="project" />
+    <orderEntry type="library" name="Leiningen: org.apache.pdfbox/pdfbox:2.0.6" level="project" />
+    <orderEntry type="library" name="Leiningen: org.apache.pdfbox/preflight:2.0.6" level="project" />
+    <orderEntry type="library" name="Leiningen: org.apache.pdfbox/xmpbox:2.0.6" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.8.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/tools.cli:0.3.5" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.12" level="project" />
+    <orderEntry type="library" name="Leiningen: pdfboxing:0.1.13" level="project" />
+  </component>
+</module>
