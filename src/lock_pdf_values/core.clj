@@ -44,11 +44,33 @@
   (def field-names (string/split fields #","))
   (println (str "Locking field names: " field-names))
   (with-open [document (common/obtain-document input)]
+    (def catalog (.getDocumentCatalog document))
+    (def catalog_form (.getAcroForm catalog))
+
+    (println (str "Default Appearance: " (.getDefaultAppearance catalog_form)))
+
     (doseq [field (get-fields document)]
       (if (seq-contains? field-names (.getPartialName field))
-        (.setReadOnly field true)
+        (if (instance? PDCheckBox field)
+          (if (.isChecked field)
+            (do
+              ;(println (str "Check box Checked: " (.getPartialName field)))
+              (.setReadOnly field true)
+            )
+            (do
+              ;(println (str "Check box Un-Checked: " (.getPartialName field)))
+              (.setReadOnly field true)
+            )
+          )
+          ; If it not a checkbox lock it!
+          (do
+            ;(println (str "Field: " (.getPartialName field)))
+            (.setReadOnly field true)
+          )
         )
       )
+    )
+    (.refreshAppearances catalog_form)
     (.save document output))
   (println (str "Output: " output)))
 
