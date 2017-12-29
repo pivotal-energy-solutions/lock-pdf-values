@@ -10,6 +10,8 @@ Not using the `-o` option will overwrite the source file.
 
 ## Build
 
+`export JAVA_OPTS="--add-modules java.activation"`
+
 `lein.sh new`
 
 `lein.sh uberjar`

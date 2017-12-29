@@ -8,7 +8,6 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../lock-pdf-values-libraries/pdfbox-tools-2.0.7.jar" />
     </CLASSES>
-    <JAVADOC />
     <SOURCES />
   </library>
 </component>
